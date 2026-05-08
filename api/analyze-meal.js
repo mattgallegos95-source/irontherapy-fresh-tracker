@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed. This endpoint only accepts POST requests from the app." });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
@@ -18,10 +18,7 @@ export default async function handler(req, res) {
 Estimate nutrition macros from this meal photo.
 Return ONLY valid JSON with exactly these keys:
 mealName, calories, protein, carbs, fat, notes.
-
-Use grams for protein, carbs, and fat.
-Calories must be a number.
-If uncertain, explain briefly in notes.
+Use grams for protein/carbs/fat. Calories must be a number.
 ${mealName ? `User label: ${mealName}` : ""}
 `;
 
@@ -56,22 +53,14 @@ ${mealName ? `User label: ${mealName}` : ""}
 
     const outputText =
       data.output_text ||
-      (data.output || [])
-        .flatMap(item => item.content || [])
-        .map(content => content.text || "")
-        .join("") ||
+      (data.output || []).flatMap(item => item.content || []).map(content => content.text || "").join("") ||
       "";
 
-    const cleaned = outputText.replace(/```json|```/g, "").trim();
     let parsed;
-
     try {
-      parsed = JSON.parse(cleaned);
+      parsed = JSON.parse(outputText.replace(/```json|```/g, "").trim());
     } catch {
-      return res.status(500).json({
-        error: "AI returned an unreadable result.",
-        raw: outputText
-      });
+      return res.status(500).json({ error: "AI returned an unreadable result.", raw: outputText });
     }
 
     return res.status(200).json({
