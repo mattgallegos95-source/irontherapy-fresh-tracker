@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iron Therapy</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header class="hero">
+  <div class="brand">
+    <div class="logo-mark">
+      <img src="logo.jpg" alt="Iron Therapy Logo">
+    </div>
+    <div>
+      <h1>Iron Therapy</h1>
+      <p class="sub">Earn It Every Day.</p>
+    </div>
+  </div>
+  <div class="hero-actions">
+    <select id="yearSelect"></select>
+    <button id="exportBtn">Export Backup</button>
+    <label class="import-label">Import Backup
+      <input id="importFile" type="file" accept=".json"/>
+    </label>
+  </div>
+</header>
+
+<main class="app-shell">
+  <section class="calendar-card">
+    <div class="calendar-top">
+      <button id="prevMonth">‹</button>
+      <h2 id="monthTitle"></h2>
+      <button id="nextMonth">›</button>
+    </div>
+
+    <div class="legend">
+      <span><i class="dot fitness-dot"></i>Fitness</span>
+      <span><i class="dot nutrition-dot"></i>Nutrition</span>
+      <span><i class="dot task-dot"></i>Tasks</span>
+    </div>
+
+    <div class="weekdays">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+    <div id="calendar" class="calendar"></div>
+  </section>
+
+  <section class="day-card">
+    <div class="day-header">
+      <div>
+        <p class="eyebrow">Selected Day</p>
+        <h2 id="selectedDateTitle">Select a day</h2>
+        <p id="completionSummary">Track your fitness, meals, tasks, and development.</p>
+      </div>
+      <button class="danger" id="clearDayBtn">Clear Day</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card"><span>Workout</span><strong id="statWorkout">Not selected</strong></div>
+      <div class="stat-card"><span>Meals</span><strong id="statMeals">0</strong></div>
+      <div class="stat-card"><span>Tasks Done</span><strong id="statTasks">0/0</strong></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="fitness">Fitness</button>
+      <button class="tab" data-tab="nutrition">Nutrition</button>
+      <button class="tab" data-tab="tasks">Daily Tasks</button>
+    </div>
+
+    <section id="fitness" class="tab-content active">
+      <div class="panel">
+        <h3>Daily Fitness Photo</h3>
+        <p class="muted">Upload a daily progress photo for this date.</p>
+        <input type="file" id="fitnessPhotoInput" accept="image/*">
+        <img id="fitnessPhotoPreview" class="photo-preview" alt="">
+        <textarea id="fitnessPhotoNotes" placeholder="Photo notes: weight, body fat estimate, pump, lighting, how you feel today"></textarea>
+      </div>
+
+      <div class="panel glow">
+        <h3>Today's Workout</h3>
+        <label>Select workout day</label>
+        <select id="workoutSelect"></select>
+        <button id="loadWorkoutBtn">Load Workout</button>
+      </div>
+
+      <div class="panel">
+        <div class="section-inline">
+          <h3>Workout Exercises</h3>
+          <button id="addExerciseBtn">+ Add Exercise</button>
+        </div>
+        <div id="exerciseList"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-inline">
+          <h3>Abs Add-On</h3>
+          <label class="toggle"><input type="checkbox" id="absEnabled"> Add Abs Today</label>
+        </div>
+        <p class="muted">Check the box to add the full abs circuit for today.</p>
+        <div id="absList"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-inline">
+          <h3>Cardio</h3>
+          <label class="toggle"><input type="checkbox" id="cardioEnabled"> Add Cardio Today</label>
+        </div>
+        <div id="cardioFields" class="cardio-grid">
+          <label>Type of cardio <input id="cardioType" placeholder="Stairmaster, treadmill, walk, run, bike"></label>
+          <label>Duration <input id="cardioDuration" placeholder="30 minutes"></label>
+          <label>Distance <input id="cardioDistance" placeholder="Optional"></label>
+          <label>Calories burned <input id="cardioCalories" type="number" placeholder="Optional"></label>
+          <label class="wide">Notes <textarea id="cardioNotes" placeholder="Pace, incline, heart rate, how it felt"></textarea></label>
+        </div>
+      </div>
+    </section>
+
+    <section id="nutrition" class="tab-content">
+      <div class="panel">
+        <div class="section-inline">
+          <h3>Nutrition / Meal Tracker</h3>
+          <button id="addMealBtn">+ Add Meal</button>
+        </div>
+
+        <div class="macro-goals">
+          <label>Calories Goal <input id="goalCalories" type="number"></label>
+          <label>Protein Goal <input id="goalProtein" type="number"></label>
+          <label>Carbs Goal <input id="goalCarbs" type="number"></label>
+          <label>Fat Goal <input id="goalFat" type="number"></label>
+          <label>Water Goal oz <input id="goalWater" type="number"></label>
+        </div>
+
+        <div id="macroTotals" class="totals"></div>
+        <p class="muted">Nutrition starts blank each day. Upload food photos, then enter/edit macros.</p>
+        <div id="mealList"></div>
+      </div>
+    </section>
+
+    <section id="tasks" class="tab-content">
+      <div class="panel">
+        <div class="section-inline">
+          <h3>Daily Tasks</h3>
+          <button id="addTaskBtn">+ Add Task</button>
+        </div>
+
+        <h4>Work / Responsibilities</h4>
+        <div id="workTasks"></div>
+
+        <h4>Personal Development</h4>
+        <div id="developmentTasks"></div>
+
+        <h4>Daily Reflection</h4>
+        <div class="reflection-grid">
+          <label>What went well?<textarea id="wentWell"></textarea></label>
+          <label>What needs improvement?<textarea id="needsImprovement"></textarea></label>
+          <label>Tomorrow's focus<textarea id="tomorrowFocus"></textarea></label>
+          <label>Energy 1-10<input id="energy" type="number" min="1" max="10"></label>
+          <label>Stress 1-10<input id="stress" type="number" min="1" max="10"></label>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<template id="exerciseTemplate">
+  <div class="exercise-card">
+    <div class="card-row">
+      <input class="exercise-name" placeholder="Exercise name">
+      <input class="exercise-link" placeholder="How-to link">
+      <label class="toggle"><input class="exercise-complete" type="checkbox"> Done</label>
+      <button class="danger remove">×</button>
+    </div>
+    <div class="sets"></div>
+    <button class="secondary add-set">+ Add Set</button>
+    <textarea class="exercise-notes" placeholder="Notes / form cues"></textarea>
+    <a class="howto" target="_blank">Open how-to</a>
+  </div>
+</template>
+
+<template id="mealTemplate">
+  <div class="meal-card">
+    <div class="card-row">
+      <input class="meal-name" placeholder="Meal name">
+      <input class="meal-photo" type="file" accept="image/*">
+      <button class="success estimate-btn" type="button">Estimate Macros</button>
+      <button class="danger remove">×</button>
+    </div>
+    <img class="meal-preview" alt="">
+    <div class="macro-row">
+      <label>Calories <input class="meal-calories" type="number"></label>
+      <label>Protein <input class="meal-protein" type="number"></label>
+      <label>Carbs <input class="meal-carbs" type="number"></label>
+      <label>Fat <input class="meal-fat" type="number"></label>
+    </div>
+    <textarea class="meal-notes" placeholder="Serving size / notes"></textarea>
+    <p class="muted small">AI estimate button is a placeholder until connected to a hosted vision API.</p>
+  </div>
+</template>
+
+<template id="taskTemplate">
+  <div class="task-card">
+    <input class="task-done" type="checkbox">
+    <input class="task-text" placeholder="Task">
+    <select class="task-category">
+      <option value="work">Work / Responsibilities</option>
+      <option value="development">Personal Development</option>
+    </select>
+    <button class="danger remove">×</button>
+  </div>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>
