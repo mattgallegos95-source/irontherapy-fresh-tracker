@@ -1,9 +1,0 @@
-{
-  "name": "IronTherapy Fresh",
-  "short_name": "IronTherapy",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#05070b",
-  "theme_color": "#ef4444",
-  "icons": []
-}
