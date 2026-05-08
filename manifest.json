@@ -1,0 +1,8 @@
+{
+  "name": "Iron Therapy",
+  "short_name": "Iron Therapy",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#ef4444"
+}
