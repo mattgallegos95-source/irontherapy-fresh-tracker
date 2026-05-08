@@ -1,0 +1,1 @@
+Replace all repo files with this package. The Estimate Macros button will immediately show an alert when tapped, before trying OpenAI.
